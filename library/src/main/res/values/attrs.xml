@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TabLayout">
+        <!-- 指示器高度 -->
+        <attr name="indicatorHeight" format="dimension|reference"/>
+        <!-- 指示器颜色 -->
+        <attr name="indicatorColor" format="reference|color"/>
+        <!-- 指示器padding -->
+        <attr name="indicatorPadding" format="dimension|reference"/>
+    </declare-styleable>
+
+</resources>
