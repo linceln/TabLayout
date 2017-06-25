@@ -11,9 +11,11 @@
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="56dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,8 +25,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="可以了没有"
             android:singleLine="true"
+            android:text="可以了没有"
             android:textColor="@color/sel_color_text"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -34,8 +36,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="还没好吗"
             android:singleLine="true"
+            android:text="还没好吗"
             android:textColor="@color/sel_color_text"
             android:textSize="16sp"
             android:textStyle="italic|bold"/>
@@ -57,6 +59,143 @@
             android:src="@drawable/sel_icon_launcher"/>
     </com.xyz.library.TabLayout>
 
+    <com.xyz.library.TabLayout
+        android:id="@+id/tabLayoutMargin"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:indicatorHeight="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:lineColor="@android:color/transparent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="可以没有"
+            android:textColor="@color/sel_color_text"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:src="@drawable/sel_icon_launcher"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="还没好吗"
+            android:textColor="@color/sel_color_text"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="搞定了"
+            android:textColor="@color/sel_color_text"
+            android:textSize="20sp"/>
+
+
+    </com.xyz.library.TabLayout>
+
+    <!--<com.xyz.library.TabLayout-->
+    <!--android:id="@+id/tabLayout"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="56dp"-->
+    <!--android:gravity="start"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:background="@android:color/white"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="可以了没有"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="还没好吗"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="italic|bold"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="搞定了"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scaleType="center"-->
+    <!--android:src="@drawable/sel_icon_launcher"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="最"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="撒"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="italic|bold"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="飞飞飞飞飞飞飞飞飞飞飞"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/sel_color_text"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scaleType="center"-->
+    <!--android:src="@drawable/sel_icon_launcher"/>-->
+
+    <!--</com.xyz.library.TabLayout>-->
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
@@ -65,6 +204,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutMargin"/>
 
 </android.support.constraint.ConstraintLayout>

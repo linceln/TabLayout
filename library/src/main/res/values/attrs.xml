@@ -8,6 +8,8 @@
         <attr name="indicatorColor" format="reference|color"/>
         <!-- 指示器padding -->
         <attr name="indicatorPadding" format="dimension|reference"/>
+        <!--底部分割线颜色-->
+        <attr name="lineColor" format="reference|color"/>
     </declare-styleable>
 
 </resources>

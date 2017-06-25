@@ -40,13 +40,17 @@ public class MainActivity extends AppCompatActivity {
         // 初始化
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setViewPager(viewPager);
+        TabLayout tabLayoutMargin = (TabLayout) findViewById(R.id.tabLayoutMargin);
+        tabLayoutMargin.setViewPager(viewPager);
 
         // 默认页码
         tabLayout.setCurrentItem(2);
+        tabLayoutMargin.setCurrentItem(2);
 
         // 设置渐变色
-        int[] color = new int[]{Color.MAGENTA, Color.RED, Color.GREEN, Color.CYAN};
+        int[] color = new int[]{Color.MAGENTA, Color.BLUE, Color.GREEN, Color.CYAN};
         tabLayout.setShaderColors(color);
+        tabLayoutMargin.setShaderColors(color);
 
         // 设置ViewPager滑动监听
         tabLayout.setOnPageChangeListener(new TabLayout.OnPageChangeListener() {

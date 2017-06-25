@@ -37,6 +37,7 @@ public class TabLayout extends LinearLayout {
 
     // line
     private Paint linePaint;
+    private int lineColor = Color.LTGRAY;
 
     // 滑动量
     private float scrollOffset = 0f;
@@ -70,6 +71,9 @@ public class TabLayout extends LinearLayout {
         if (a.hasValue(R.styleable.TabLayout_indicatorColor)) {
             indicatorColor = a.getColor(R.styleable.TabLayout_indicatorColor, indicatorColor);
         }
+        if (a.hasValue(R.styleable.TabLayout_lineColor)) {
+            lineColor = a.getColor(R.styleable.TabLayout_lineColor, lineColor);
+        }
         a.recycle();
 
         // 初始化画笔(indicator)
@@ -77,11 +81,14 @@ public class TabLayout extends LinearLayout {
         indicatorPaint.setAntiAlias(true);
         indicatorPaint.setColor(indicatorColor);
         indicatorPaint.setStyle(Paint.Style.FILL);
-        indicatorPaint.setPathEffect(new CornerPathEffect(8));
+        indicatorPaint.setPathEffect(new CornerPathEffect(indicatorHeight));
         // 初始化画笔(line)
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
-        linePaint.setColor(Color.LTGRAY);
+        linePaint.setColor(lineColor);
+        // Scroller
+//        scroller = new Scroller(context);
+//        touchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     /**
@@ -91,7 +98,7 @@ public class TabLayout extends LinearLayout {
      */
     public void setCurrentItem(final int position) {
         checkViewPager();
-        viewPager.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 // after measure and layout
@@ -118,40 +125,17 @@ public class TabLayout extends LinearLayout {
      *
      * @param colors
      */
-    public void setShaderColors(int[] colors) {
-        indicatorPaint.setShader(new LinearGradient(indicatorPadding, getHeight(), getScreenWidth() - indicatorPadding, getHeight() - indicatorHeight, colors, null, Shader.TileMode.MIRROR));
+    public void setShaderColors(final int[] colors) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                indicatorPaint.setShader(new LinearGradient(indicatorPadding, getHeight(),
+                        getActualWidth() - indicatorPadding, getHeight() - indicatorHeight,
+                        colors, null, Shader.TileMode.MIRROR));
+            }
+        });
     }
 
-    // ViewGroup容器组件的绘制，当它没有背景时直接调用的是dispatchDraw()方法, 而绕过了draw()方法，
-    // 当它有背景的时候就调用draw()方法, 再调用dispatchDraw()方法
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        canvas.save();
-        // draw line
-        canvas.drawLine(0, getHeight(), getRight(), getHeight(), linePaint);
-        // draw indicator
-        canvas.drawPath(path, indicatorPaint);
-        canvas.restore();
-        super.dispatchDraw(canvas);
-    }
-
-
-    /**
-     * after measured
-     *
-     * @param w
-     * @param h
-     * @param oldw
-     * @param oldh
-     */
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        itemCount = getChildCount();
-        itemWidth = (w / itemCount);
-        getPath(0);
-        setOnItemClickListener();
-    }
 
     /**
      * 关联ViewPager滑动
@@ -175,11 +159,11 @@ public class TabLayout extends LinearLayout {
             @Override
             public void onPageScrolled(int position, float offset, int px) {
                 if (offset >= 0.0f && offset <= 0.5f) {
-                    scrollOffset = getScreenWidth() / itemCount * offset * 2;
+                    scrollOffset = getActualWidth() / itemCount * offset * 2;
                     getPath(position);
                     invalidate();
                 } else if (offset > 0.5f && offset < 1.0f) {
-                    scrollOffset = getScreenWidth() / itemCount - getScreenWidth() / itemCount * (1 - offset) * 2;
+                    scrollOffset = getActualWidth() / itemCount - getActualWidth() / itemCount * (1 - offset) * 2;
                     path = new Path();
                     path.moveTo(position * itemWidth + scrollOffset + indicatorPadding, getHeight());
                     path.lineTo((position + 2) * itemWidth - indicatorPadding, getHeight());
@@ -188,7 +172,6 @@ public class TabLayout extends LinearLayout {
                     path.close();
                     invalidate();
                 }
-
                 if (listener != null) {
                     listener.onPageScrolled(position, offset, px);
                 }
@@ -202,6 +185,85 @@ public class TabLayout extends LinearLayout {
             }
         });
     }
+
+    // ViewGroup容器组件的绘制，当它没有背景时直接调用的是dispatchDraw()方法, 而绕过了draw()方法，
+    // 当它有背景的时候就调用draw()方法, 再调用dispatchDraw()方法
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        canvas.save();
+        // draw line
+        canvas.drawLine(0, getHeight(), getRight(), getHeight(), linePaint);
+        // draw indicator
+        canvas.drawPath(path, indicatorPaint);
+        canvas.restore();
+        super.dispatchDraw(canvas);
+    }
+
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+////        for (int i = 0; i < getChildCount(); i++) {
+////            View view = getChildAt(i);
+////            measureChild(view, widthMeasureSpec, heightMeasureSpec);
+////        }
+//    }
+//
+//    @Override
+//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+////        super.onLayout(changed, l, t, r, b);
+//        if (changed) {
+//            for (int i = 0; i < getChildCount(); i++) {
+//                View view = getChildAt(i);
+//                view.layout(i * view.getMeasuredWidth(), 0, (i + 1) * view.getMeasuredWidth(), view.getMeasuredHeight());
+//            }
+//        }
+//    }
+
+    /**
+     * after measured
+     *
+     * @param w
+     * @param h
+     * @param oldw
+     * @param oldh
+     */
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        itemCount = getChildCount();
+        itemWidth = (w / itemCount);
+        getPath(0);
+        setOnItemClickListener();
+    }
+
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                // 获取按下时的坐标值
+//                touchDownX = ev.getRawX();
+//                lastTouchMoveX = touchDownX;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                // 获取滑动时的目标值
+//                touchMoveX = ev.getRawX();
+//                lastTouchMoveX = touchMoveX;
+//                // 滑动距离超过touchSlop则拦截触摸事件到onTouchEvent中处理
+//                float diff = Math.abs(touchMoveX - touchDownX);
+//                if (diff > touchSlop) {
+//                    return true;
+//                }
+//                break;
+//        }
+//
+//        return super.onInterceptTouchEvent(ev);
+//    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        return super.onTouchEvent(event);
+//    }
 
     private void getPath(int position) {
         path = new Path();
@@ -269,12 +331,12 @@ public class TabLayout extends LinearLayout {
     }
 
     /**
-     * 获得屏幕宽度
+     * 获得控件宽度
      *
      * @return pixel
      */
-    private int getScreenWidth() {
-        return getResources().getDisplayMetrics().widthPixels;
+    private int getActualWidth() {
+        return getMeasuredWidth();
     }
 
     private int getDp(int dp) {
