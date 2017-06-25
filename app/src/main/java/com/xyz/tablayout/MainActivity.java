@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setCurrentItem(2);
 
         // 设置渐变色
-        int[] color = new int[]{Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.CYAN};
+        int[] color = new int[]{Color.MAGENTA, Color.RED, Color.GREEN, Color.CYAN};
         tabLayout.setShaderColors(color);
 
         // 设置ViewPager滑动监听
