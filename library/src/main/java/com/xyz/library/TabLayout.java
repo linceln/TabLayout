@@ -153,7 +153,6 @@ public class TabLayout extends LinearLayout {
 
             @Override
             public void onPageSelected(int position) {
-                setSelected(position);
                 if (listener != null) {
                     listener.onPageSelected(position);
                 }
@@ -162,10 +161,12 @@ public class TabLayout extends LinearLayout {
             @Override
             public void onPageScrolled(int position, float offset, int px) {
                 if (offset >= 0.0f && offset <= 0.5f) {
+                    setSelected(position);
                     scrollOffset = getActualWidth() / itemCount * offset * 2;
                     getPath(position);
                     invalidate();
                 } else if (offset > 0.5f && offset < 1.0f) {
+                    setSelected(position + 1);
                     scrollOffset = getActualWidth() / itemCount - getActualWidth() / itemCount * (1 - offset) * 2;
                     path = new Path();
                     path.moveTo(position * itemWidth + scrollOffset + indicatorPadding, getHeight());
