@@ -33,7 +33,7 @@ public class TabLayout extends LinearLayout {
     private Paint indicatorPaint;
     private int itemWidth;
     private float indicatorHeight = getDp(4);
-    private int indicatorPadding = getDp(24);
+    private float indicatorPadding = getDp(16);
 
     // line
     private Paint linePaint;
@@ -73,6 +73,9 @@ public class TabLayout extends LinearLayout {
         }
         if (a.hasValue(R.styleable.TabLayout_lineColor)) {
             lineColor = a.getColor(R.styleable.TabLayout_lineColor, lineColor);
+        }
+        if (a.hasValue(R.styleable.TabLayout_indicatorPadding)) {
+            indicatorPadding = a.getDimension(R.styleable.TabLayout_indicatorPadding, indicatorPadding);
         }
         a.recycle();
 
