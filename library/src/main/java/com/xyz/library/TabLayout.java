@@ -16,9 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
-import android.widget.Scroller;
 
 public class TabLayout extends LinearLayout {
 
@@ -43,8 +41,9 @@ public class TabLayout extends LinearLayout {
 
     // 滑动量
     private float scrollOffset = 0f;
-    private Scroller scroller;
-    private int touchSlop;
+
+    // 滑动量是否超过一半
+    private boolean isPastHalf = false;
 
     public TabLayout(Context context) {
         this(context, null, 0);
@@ -93,9 +92,6 @@ public class TabLayout extends LinearLayout {
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setColor(lineColor);
-        // Scroller
-        scroller = new Scroller(context);
-        touchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     /**
@@ -138,7 +134,7 @@ public class TabLayout extends LinearLayout {
             public void run() {
                 indicatorPaint.setShader(new LinearGradient(indicatorPadding, getHeight(),
                         getActualWidth() - indicatorPadding, getHeight() - indicatorHeight,
-                        colors, null, Shader.TileMode.MIRROR));
+                        colors, null, Shader.TileMode.CLAMP));
             }
         });
     }
@@ -165,12 +161,19 @@ public class TabLayout extends LinearLayout {
 
             @Override
             public void onPageScrolled(int position, float offset, int px) {
-                scroller.startScroll(0, 0, px, 0);
                 if (offset >= 0.0f && offset <= 0.5f) {
+                    if(!isPastHalf) {
+                        isPastHalf = true;
+                        setSelected(position);
+                    }
                     scrollOffset = getActualWidth() / itemCount * offset * 2;
                     getPath(position);
                     invalidate();
                 } else if (offset > 0.5f && offset < 1.0f) {
+                    if(isPastHalf) {
+                        isPastHalf = false;
+                        setSelected(position + 1);
+                    }
                     scrollOffset = getActualWidth() / itemCount - getActualWidth() / itemCount * (1 - offset) * 2;
                     path = new Path();
                     path.moveTo(position * itemWidth + scrollOffset + indicatorPadding, getHeight());

@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.xyz.library.TabLayout;
 
@@ -15,14 +14,6 @@ public class ScrollTabLayoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_tab_layout);
-
-        final View linear = findViewById(R.id.linear);
-        linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linear.scrollBy(100, 0);
-            }
-        });
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -37,7 +28,7 @@ public class ScrollTabLayoutActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return 6;
+                return 3;
             }
         });
 
