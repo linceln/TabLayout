@@ -16,7 +16,9 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 
 public class TabLayout extends LinearLayout {
 
@@ -41,6 +43,8 @@ public class TabLayout extends LinearLayout {
 
     // 滑动量
     private float scrollOffset = 0f;
+    private Scroller scroller;
+    private int touchSlop;
 
     public TabLayout(Context context) {
         this(context, null, 0);
@@ -87,8 +91,8 @@ public class TabLayout extends LinearLayout {
         linePaint.setAntiAlias(true);
         linePaint.setColor(lineColor);
         // Scroller
-//        scroller = new Scroller(context);
-//        touchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
+        scroller = new Scroller(context);
+        touchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     /**
@@ -158,6 +162,7 @@ public class TabLayout extends LinearLayout {
 
             @Override
             public void onPageScrolled(int position, float offset, int px) {
+                scroller.startScroll(0, 0, px, 0);
                 if (offset >= 0.0f && offset <= 0.5f) {
                     scrollOffset = getActualWidth() / itemCount * offset * 2;
                     getPath(position);
@@ -184,6 +189,11 @@ public class TabLayout extends LinearLayout {
                 }
             }
         });
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
     }
 
     // ViewGroup容器组件的绘制，当它没有背景时直接调用的是dispatchDraw()方法, 而绕过了draw()方法，
