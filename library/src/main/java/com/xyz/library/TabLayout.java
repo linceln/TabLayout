@@ -39,7 +39,7 @@ public class TabLayout extends LinearLayout {
     private Paint linePaint;
     private int lineColor = Color.LTGRAY;
 
-    // 滑动量
+    // 滑动量g
     private float scrollOffset = 0f;
 
     // 滑动量是否超过一半
