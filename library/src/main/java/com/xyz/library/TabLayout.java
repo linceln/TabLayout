@@ -42,6 +42,9 @@ public class TabLayout extends LinearLayout {
     // 滑动量
     private float scrollOffset = 0f;
 
+    // 滑动量是否超过一半
+    private boolean isPastHalf = false;
+
     public TabLayout(Context context) {
         this(context, null, 0);
     }
@@ -89,9 +92,6 @@ public class TabLayout extends LinearLayout {
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setColor(lineColor);
-        // Scroller
-//        scroller = new Scroller(context);
-//        touchSlop = ViewConfiguration.get(context).getScaledPagingTouchSlop();
     }
 
     /**
@@ -134,7 +134,7 @@ public class TabLayout extends LinearLayout {
             public void run() {
                 indicatorPaint.setShader(new LinearGradient(indicatorPadding, getHeight(),
                         getActualWidth() - indicatorPadding, getHeight() - indicatorHeight,
-                        colors, null, Shader.TileMode.MIRROR));
+                        colors, null, Shader.TileMode.CLAMP));
             }
         });
     }
@@ -161,12 +161,18 @@ public class TabLayout extends LinearLayout {
             @Override
             public void onPageScrolled(int position, float offset, int px) {
                 if (offset >= 0.0f && offset <= 0.5f) {
-                    setSelected(position);
+                    if(!isPastHalf) {
+                        isPastHalf = true;
+                        setSelected(position);
+                    }
                     scrollOffset = getActualWidth() / itemCount * offset * 2;
                     getPath(position);
                     invalidate();
                 } else if (offset > 0.5f && offset < 1.0f) {
-                    setSelected(position + 1);
+                    if(isPastHalf) {
+                        isPastHalf = false;
+                        setSelected(position + 1);
+                    }
                     scrollOffset = getActualWidth() / itemCount - getActualWidth() / itemCount * (1 - offset) * 2;
                     path = new Path();
                     path.moveTo(position * itemWidth + scrollOffset + indicatorPadding, getHeight());
@@ -203,26 +209,6 @@ public class TabLayout extends LinearLayout {
         super.dispatchDraw(canvas);
     }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-////        for (int i = 0; i < getChildCount(); i++) {
-////            View view = getChildAt(i);
-////            measureChild(view, widthMeasureSpec, heightMeasureSpec);
-////        }
-//    }
-//
-//    @Override
-//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-////        super.onLayout(changed, l, t, r, b);
-//        if (changed) {
-//            for (int i = 0; i < getChildCount(); i++) {
-//                View view = getChildAt(i);
-//                view.layout(i * view.getMeasuredWidth(), 0, (i + 1) * view.getMeasuredWidth(), view.getMeasuredHeight());
-//            }
-//        }
-//    }
-
     /**
      * after measured
      *
@@ -239,35 +225,6 @@ public class TabLayout extends LinearLayout {
         getPath(0);
         setOnItemClickListener();
     }
-
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent ev) {
-//
-//        switch (ev.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                // 获取按下时的坐标值
-//                touchDownX = ev.getRawX();
-//                lastTouchMoveX = touchDownX;
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                // 获取滑动时的目标值
-//                touchMoveX = ev.getRawX();
-//                lastTouchMoveX = touchMoveX;
-//                // 滑动距离超过touchSlop则拦截触摸事件到onTouchEvent中处理
-//                float diff = Math.abs(touchMoveX - touchDownX);
-//                if (diff > touchSlop) {
-//                    return true;
-//                }
-//                break;
-//        }
-//
-//        return super.onInterceptTouchEvent(ev);
-//    }
-//
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        return super.onTouchEvent(event);
-//    }
 
     private void getPath(int position) {
         path = new Path();
