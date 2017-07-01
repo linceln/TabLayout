@@ -61,6 +61,7 @@ public class TabLayout extends LinearLayout {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public TabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        setOrientation(LinearLayout.HORIZONTAL);
         init(context, attrs);
     }
 
@@ -153,28 +154,28 @@ public class TabLayout extends LinearLayout {
 
             @Override
             public void onPageSelected(int position) {
-                setSelected(position);
                 if (listener != null) {
                     listener.onPageSelected(position);
                 }
             }
 
             @Override
-            public void onPageScrolled(int position, float offset, int px) {
+            public void onPageScrolled(final int position, float offset, int px) {
+
                 if (offset >= 0.0f && offset <= 0.5f) {
-                    if(!isPastHalf) {
+                    if (!isPastHalf) {
                         isPastHalf = true;
                         setSelected(position);
                     }
-                    scrollOffset = getActualWidth() / itemCount * offset * 2;
+                    scrollOffset = itemWidth * offset * 2;
                     getPath(position);
                     invalidate();
                 } else if (offset > 0.5f && offset < 1.0f) {
-                    if(isPastHalf) {
+                    if (isPastHalf) {
                         isPastHalf = false;
                         setSelected(position + 1);
                     }
-                    scrollOffset = getActualWidth() / itemCount - getActualWidth() / itemCount * (1 - offset) * 2;
+                    scrollOffset = itemWidth - itemWidth * (1 - offset) * 2;
                     path = new Path();
                     path.moveTo(position * itemWidth + scrollOffset + indicatorPadding, getHeight());
                     path.lineTo((position + 2) * itemWidth - indicatorPadding, getHeight());
@@ -195,11 +196,6 @@ public class TabLayout extends LinearLayout {
                 }
             }
         });
-    }
-
-    @Override
-    public void computeScroll() {
-        super.computeScroll();
     }
 
     // ViewGroup容器组件的绘制，当它没有背景时直接调用的是dispatchDraw()方法, 而绕过了draw()方法，
