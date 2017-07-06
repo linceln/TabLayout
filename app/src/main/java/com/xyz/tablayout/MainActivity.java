@@ -1,6 +1,5 @@
 package com.xyz.tablayout;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayoutMargin.setCurrentItem(2);
 
         // 设置渐变色
-        int[] color = new int[]{Color.MAGENTA, Color.BLUE, Color.GREEN, Color.CYAN};
+        int[] color = new int[]{getResources().getColor(R.color.colorFirst), getResources().getColor(R.color.colorSecond)};
         tabLayout.setShaderColors(color);
         tabLayoutMargin.setShaderColors(color);
 

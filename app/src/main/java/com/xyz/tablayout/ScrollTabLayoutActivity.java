@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.xyz.library.TabLayout;
+import com.xyz.library.TabLayoutWrap;
 
 public class ScrollTabLayoutActivity extends AppCompatActivity {
 
@@ -33,10 +33,10 @@ public class ScrollTabLayoutActivity extends AppCompatActivity {
         });
 
         // 初始化
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        final TabLayoutWrap tabLayout = (TabLayoutWrap) findViewById(R.id.tabLayout);
         tabLayout.setViewPager(viewPager);
 
-        tabLayout.setOnPageChangeListener(new TabLayout.OnPageChangeListener() {
+        tabLayout.setOnPageChangeListener(new TabLayoutWrap.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
