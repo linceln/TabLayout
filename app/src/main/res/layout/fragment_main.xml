@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical"
-             tools:context="com.xyz.tablayout.MainFragment">
+              tools:context="com.xyz.tablayout.MainFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -14,11 +14,5 @@
         android:layout_gravity="center"
         android:text="@string/hello_blank_fragment"
         android:textSize="30sp"/>
-
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:text="Scroll"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>
