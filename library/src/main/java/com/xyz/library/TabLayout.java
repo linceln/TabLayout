@@ -32,8 +32,8 @@ public class TabLayout extends LinearLayout {
     // indicator
     private Paint indicatorPaint;
     private int itemWidth;
-    private float indicatorHeight = getDp(3);
-    private float indicatorPadding = getDp(20);
+    private float indicatorHeight = getDp(4);
+    private float indicatorPadding;
 
     // line
     private Paint linePaint;
@@ -222,6 +222,8 @@ public class TabLayout extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        // 默认 indicator 长度为 item 的 1/3
+        indicatorPadding = w / 3;
         itemCount = getChildCount();
         itemWidth = (w / itemCount);
         getPath(0);
