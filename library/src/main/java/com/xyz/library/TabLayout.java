@@ -233,7 +233,7 @@ public class TabLayout extends LinearLayout {
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
             if (view instanceof TextView) {
-                indicatorPadding = (itemWidth - getTextWidth(getContext(), (TextView) view)) / 2;
+                indicatorPadding = (itemWidth - getTextWidth((TextView) view)) / 2;
                 break;
             }
         }
@@ -333,10 +333,8 @@ public class TabLayout extends LinearLayout {
         }
     }
 
-    private float getTextWidth(Context context, TextView tv) {
+    private float getTextWidth(TextView tv) {
         TextPaint paint = tv.getPaint();
-//        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
-//        paint.setTextSize(scaledDensity * tv.getTextSize());
         return paint.measureText(tv.getText().toString().trim());
     }
 
