@@ -13,10 +13,12 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class TabLayout extends LinearLayout {
 
@@ -224,10 +226,21 @@ public class TabLayout extends LinearLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         itemCount = getChildCount();
         itemWidth = (w / itemCount);
+
         // 默认 indicator 长度为 item 的 1/3
+        // 如果有 TextView，则按文字长度
         indicatorPadding = itemWidth / 3;
+        for (int i = 0; i < getChildCount(); i++) {
+            View view = getChildAt(i);
+            if (view instanceof TextView) {
+                indicatorPadding = (itemWidth - getTextWidth(getContext(), (TextView) view)) / 2;
+                break;
+            }
+        }
+
         getPath(0);
         setOnItemClickListener();
+
     }
 
     private void getPath(int position) {
@@ -318,6 +331,13 @@ public class TabLayout extends LinearLayout {
         if (position > itemCount - 1) {
             throw new IndexOutOfBoundsException("size is " + itemCount + ", index is " + position);
         }
+    }
+
+    private float getTextWidth(Context context, TextView tv) {
+        TextPaint paint = tv.getPaint();
+//        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+//        paint.setTextSize(scaledDensity * tv.getTextSize());
+        return paint.measureText(tv.getText().toString().trim());
     }
 
     /**
