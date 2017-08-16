@@ -222,10 +222,10 @@ public class TabLayout extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        // 默认 indicator 长度为 item 的 1/3
-        indicatorPadding = w / 3;
         itemCount = getChildCount();
         itemWidth = (w / itemCount);
+        // 默认 indicator 长度为 item 的 1/3
+        indicatorPadding = itemWidth / 3;
         getPath(0);
         setOnItemClickListener();
     }
