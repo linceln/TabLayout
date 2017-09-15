@@ -34,7 +34,7 @@ public class TabLayout extends LinearLayout {
     // indicator
     private Paint indicatorPaint;
     private int itemWidth;
-    private float indicatorHeight = getDp(4);
+    private float indicatorHeight = getDp(3);
     private float indicatorPadding;
 
     // line
