@@ -228,7 +228,7 @@ public class TabLayout extends LinearLayout {
         itemWidth = (w / itemCount);
 
         // 默认 indicator 长度为 item 的 1/3
-        // 如果有 TextView，则按文字长度
+        // 如果有 TextView，则按第一个 TextView 的文字长度，这里的长度计算逻辑可以随意发挥
         indicatorPadding = itemWidth / 3;
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
